@@ -1,25 +1,25 @@
+import * as React from 'react'
 import { Link } from "@remix-run/react";
-import React, { useState, useEffect } from 'react';
 import Typist from 'react-typist';
-import { MakaraIcon } from "../components/makara-icon";
+import { MakaraIcon } from '~/components/icons/MakaraIcon';
 
 export default function IndexRoute() {
-  const [count, setCount] = useState(1);
+  const [isTypingDone, setTypingDone] = React.useState(0);
 
-  useEffect(() => {
-    // console.log("Count: " + count);
-    setCount(1);
-  }, [count]);
+  // useEffect(() => {
+  //   // console.log("Count: " + count);
+  //   setCount(1);
+  // }, [count]);
 
   return (
     <div className='flex justify-center items-center h-screen bg-black p-64' >
       <div className='absolute top-12 left-28 z-0 scale-100z' width="500" height="500">
-        <MakaraIcon/>
+        <MakaraIcon />
       </div>
       <div className='flex flex-col items-center'>
         <h1 className='z-50 text-white text-9xl font-bold uppercase'>
-          {count ? (
-            <Typist avgTypingDelay={100} cursor={{ blink: true, }} onTypingDone={() => setCount(0)}>
+          {isTypingDone ? "" : (
+            <Typist avgTypingDelay={100} cursor={{ blink: true, }} onTypingDone={() => setTypingDone(1)}>
               <span>adm</span><br />
               <Typist.Delay ms={100} />
 
@@ -35,17 +35,17 @@ export default function IndexRoute() {
               <span>2022!</span>
               <Typist.Delay ms={1000} />
             </Typist>
-          ) : ("")
+          )
           }
         </h1>
         <div className='my-16'>
-          <Link 
+          <Link
             to="/play"
             className='px-5 py-2.5 text-black bg-white focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm text-center'
           >
             <span>Play</span>
           </Link>
-          <Link 
+          <Link
             to="/about"
             className='px-5 py-2.5 ml-10 text-white underline focus:ring-4 focus:outline-none focus:ring-grey font-medium rounded-lg text-sm text-center'
           >
