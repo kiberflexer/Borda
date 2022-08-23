@@ -1,4 +1,9 @@
 module.exports = {
+  mode: 'jit',
+  purge: [
+    './public/**/*.html',
+    './app/**/*.{js,jsx,ts,tsx,vue}',
+  ],
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
   ],

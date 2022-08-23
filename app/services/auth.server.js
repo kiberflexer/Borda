@@ -1,38 +1,34 @@
-import { redirect } from "@remix-run/node";
+// import { Authenticator } from "remix-auth";
+// import { FormStrategy } from "remix-auth-form";
+// import { apiBaseURL } from "~/constants"
+// import { sessionStorage } from "./session.server";
 
-export const apiBaseURL = process.env.API_BASE_URL;
-if (!apiBaseURL) {
-	throw new Error("API_BASE_URL must be set");
-}
+// // Create an instance of the authenticator, pass a generic with what
+// // strategies will return and will store in the session
+// export let authenticator = new Authenticator<User>(sessionStorage);
 
-export async function login({ request, username, password }) {
-	let response;
-	let session = await storage.getSession(
-		request.headers.get('Cookie')
-	);
 
-	try {
-		response = await fetch(apiBaseURL + '/auth/sign-in', {
-			method: 'POST',
-			body: JSON.stringify({ username, password }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+// // Tell the Authenticator to use the form strategy
+// authenticator.use(
+// 	new FormStrategy(async ({ form }) => {
+// 		let username = form.get("username");
+// 		let password = form.get("password");
+// 		let user = await fetch(apiBaseURL + '/auth/sign-in', {
+// 			method: 'POST',
+// 			body: JSON.stringify({ username, password }),
+// 			headers: {
+// 				'Content-Type': 'application/json'
+// 			}
+// 		}).json();
 
-		let data = await response.json();
-		console.log('Data:', data)
+// 		console.log(user)
 
-	} catch (error) {
-		//     return { errors: Object.values(error.response.data.errors).flat() };
-		console.error('Error:', error);
-	}
-
-	session.set("userToken", response.data.token);
-
-	return redirect("/", {
-		headers: {
-			"Set-Cookie": await storage.commitSession(session)
-		}
-	})
-};
+// 		// the type of this user must match the type you pass to the Authenticator
+// 		// the strategy will automatically inherit the type if you instantiate
+// 		// directly inside the `use` method
+// 		return user;
+// 	}),
+// 	// each strategy has a name and can be changed to use another one
+// 	// same strategy multiple times, especially useful for the OAuth2 strategy.
+// 	"user-pass"
+// );
