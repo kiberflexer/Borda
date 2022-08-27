@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Commands to know:
+// `npx prisma generate` - update TypeScript definitions based on this schema
+// `npx prisma db push` - push the schema changes to the database
+// `npx prisma studio` - open the Studio, which allows you to edit the schema.
+// `npx prisma migrate reset` - reset the migrations to the last version. This will reset the DB and run the seed script
+// `npx prisma migrate dev --name <descriptive-name>` - generate a migration file for any changes you make to the schema (this will be committed).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  PLAYER
+}
+
+model Player {
+  id          String     @id @default(uuid())
+  email       String     @unique(map: "Player.email_unique")
+  displayName String
+  telegramId  String?
+  role        Role       @default(PLAYER)
+  sessions    Session[]
+  
+  team        Team?      @relation(fields: [teamId], references: [id])
+  teamId      String?
+  tasks       Task[]
+  solutions   Solution[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Session {
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  player         Player   @relation(fields: [playerId], references: [id])
+  playerId       String
+  expirationDate DateTime
+}
+
+model Team {
+  id        String     @id @default(uuid())
+  name      String
+  
+  captainId String
+  
+  players   Player[]
+  playerId  String
+  
+  solutions Solution[]
+}
+
+enum Category {
+  WEB
+  CRYPTO
+  FORENSICS
+  OSINT
+  REVERSE
+  BINARY
+  OTHER
+}
+
+model Label {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  color String?
+
+  task   Task?   @relation(fields: [taskId], references: [id])
+  taskId String?
+}
+
+model TaskLabel {
+  taskId  String @id
+  labelId String
+}
+
+model Task {
+  id String @id @default(uuid())
+
+  name     String   @unique
+  category Category @default(OTHER)
+  labels   Label[]
+  points   Int
+  flag     String
+  content  String
+  hint     String
+
+  author   Player @relation(fields: [authorId], references: [id])
+  authorId String
+
+  active   Boolean @default(false)
+  disabled Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  solutions Solution[]
+}
+
+model Solution {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  answer String
+
+  task Task @relation(fields: [taskId], references: [id])
+  taskId String
+
+  team   Team   @relation(fields: [teamId], references: [id])
+  teamId String
+
+  player   Player @relation(fields: [playerId], references: [id])
+  playerId String
+}
+
+model Setting {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
