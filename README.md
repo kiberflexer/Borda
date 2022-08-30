@@ -1,61 +1,25 @@
 # Borda
 
-## Запуск локально
+**Борда** - это сайт для проведения [CTF соревнований](https://ctftime.org/ctf-wtf/)
 
-1. Установить зависмости
-    - [Nodejs](https://nodejs.org/en/)
-    - [Postgres](https://www.postgresql.org/download/) или [Docker](https://docs.docker.com/engine/install/)
+## Как устроен сайт
 
-2. Подготовить базу данных
+In progress...
 
-    npx prisma db push
-    npx prisma generate
+## Как запуcтить локально
 
-3. Запустить сервер
+Для работы с сайтом потребуется [Node.js](https://nodejs.org/en/) и npm, и [Docker](https://docs.docker.com/engine/install/) или [PostgreSQL](https://www.postgresql.org/download/).
 
-    npm run dev
+Чтобы запустить Борду локально, нужно:
 
-## Run the app in production mode
+1. Скачать репозиторий.
+1. Сделать копию файла `.env.example` и назвать его `.env`. Задать в нём нужные переменные окружения.
+1. Установить зависимости командой `npm i`.
+1. Запустить базу данных. Подробнее в [руководстве по запуску PostgreSQL](docs/how-to-run-postgresql.md)
+1. Применить миграции к базе данных командой `npx prisma db push`
+1. Запустить локальный веб-сервер командой `npm run dev`.
 
-    npm build
-
-Make sure to deploy the output of `remix build`
-- `build/`
-- `public/build/`
-
-Run app
-
-    npm start
-
-## Как запустить `postgres` в контейнере `docker`
-
-- Установить [Docker](https://docs.docker.com/engine/install/)
-
-- Запустить контейнер
-
-    ```shell
-    docker pull postgres:alpine
-    docker run --name POSTGRES -p 5432:5432 -e POSTGRES_PASSWORD=randomPassword -d postgres:alpine
-    ```
-
-## Как подключиться к `postgres` через `pgweb`
-
-- Скачать образ и запустить котейнер
-
-    ```shell
-    docker pull pgweb
-    docker run docker run --name PGWEB -p 5433:8081 -d sosedoff/pgweb
-    ```
-
-- Создать сеть и присоеденить к ней оба контейнера
-  
-    ```shell
-    docker network create POSTGRES_NETWORK
-    docker network connect POSTGRES_NETWORK POSTGRES
-    docker network connect POSTGRES_NETWORK PGWEB
-    ```
-
-- Перейти по ссылке http://localhost:5433
+Больше вариантов локального запуска Борды — [в руководстве по запуску](docs/how-to-run.md).
 
 ## Полезные материалы
 
