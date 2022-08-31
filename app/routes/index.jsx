@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link, useLoaderData } from "@remix-run/react";
 import Typist from 'react-typist';
-import { MakaraIcon } from '~/components/icons/MakaraIcon';
+import { MakaraIcon } from '~/components/Logo/MakaraIcon';
 import authenticator from '~/utils/auth.server';
 
 export const loader = async ({ request }) => {

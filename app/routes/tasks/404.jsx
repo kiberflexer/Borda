@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {MakaraIcon} from '~/components/icons/MakaraIcon'
+import {MakaraIcon} from '~/components/Logo/MakaraIcon'
 
 export function meta() {
     return { title: "Ain't nothing here" }

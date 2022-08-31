@@ -1,6 +1,6 @@
 import { Form, Link, useLoaderData } from '@remix-run/react';
 import { json } from '@remix-run/server-runtime';
-import { MakaraIcon } from '~/components/icons/MakaraIcon'
+import { MakaraIcon } from '~/components/Logo/MakaraIcon'
 import authenticator from '~/utils/auth.server';
 import { sessionStorage } from '~/utils/session.server';
 
@@ -40,7 +40,10 @@ export default function LoginPage() {
                     className='flex flex-col items-center p-8 max-w-sm w-full text-base text-black'
                 >
                     <div className='p-4 flex justify-center'>
-                        <MakaraIcon size={200} />
+                        <MakaraIcon 
+                         size={200}
+                         animate={true}
+                         speed={60}/>
                     </div>
 
                     <div className='h-4'></div>
