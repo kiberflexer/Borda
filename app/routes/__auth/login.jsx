@@ -42,6 +42,7 @@ export default function LoginPage() {
                     <div className='p-4 flex justify-center'>
                         <MakaraIcon 
                          size={200}
+                         animate
                          animationSpeed={45}/>
                     </div>
 

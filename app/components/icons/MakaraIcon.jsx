@@ -1,11 +1,12 @@
 import * as React from 'react'
 
-function MakaraIcon({animationSpeed = 15, size = 500}) {
+function MakaraIcon({animationSpeed = 60, size = 500, animate = null}) {
+  console.log(animate)
+  console.log(size)
   return (
- 
     <div className='relative' style={{width: size+'px', height: size+'px'}}>
       <svg
-        className='absolute' style={{animation:`spin ${animationSpeed}s linear infinite`}}
+        className='absolute' style={{animation:`${animate!=null ? `spin ${animationSpeed}s linear infinite`:''}`}}
         width={size}
         height={size}
         viewBox="0 0 500 500"
