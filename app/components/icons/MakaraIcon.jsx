@@ -1,13 +1,13 @@
 import * as React from 'react'
 
-function MakaraIcon(props) {
+function MakaraIcon({animationSpeed = 15, size = 500}) {
   return (
  
-    <div className='relative' style={{width: props.size+'px', height: props.size+'px'}}>
+    <div className='relative' style={{width: size+'px', height: size+'px'}}>
       <svg
-        className={`${props.animate ? `absolute animate-spin-${props.speed}` : "absolute"}`}
-        width={props.size}
-        height={props.size}
+        className='absolute' style={{animation:`spin ${animationSpeed}s linear infinite`}}
+        width={size}
+        height={size}
         viewBox="0 0 500 500"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -35,8 +35,8 @@ function MakaraIcon(props) {
       </svg>
       <svg
         className='absolute'
-        width={props.size}
-        height={props.size}
+        width={size}
+        height={size}
         viewBox="0 0 500 500"
         fill="none" xmlns="http://www.w3.org/2000/svg"
       >

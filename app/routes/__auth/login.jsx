@@ -1,8 +1,9 @@
 import { Form, Link, useLoaderData } from '@remix-run/react';
 import { json } from '@remix-run/server-runtime';
-import { MakaraIcon } from '~/components/Logo/MakaraIcon'
+import { MakaraIcon } from '~/components/icons/MakaraIcon'
 import authenticator from '~/utils/auth.server';
 import { sessionStorage } from '~/utils/session.server';
+
 
 export const loader = async ({ request }) => {
     await authenticator.isAuthenticated(request, {
@@ -32,7 +33,6 @@ export const action = async ({ request, context }) => {
 export default function LoginPage() {
     const loaderData = useLoaderData();
     console.log(loaderData)
-
     return (
         <div className='min-h-screen bg-white flex flex-col'>
             <div className='w-full m-auto pt-28 flex flex-grow justify-center'>
@@ -42,8 +42,7 @@ export default function LoginPage() {
                     <div className='p-4 flex justify-center'>
                         <MakaraIcon 
                          size={200}
-                         animate={true}
-                         speed={60}/>
+                         animationSpeed={45}/>
                     </div>
 
                     <div className='h-4'></div>
