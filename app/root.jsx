@@ -5,12 +5,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLocation
+  useLocation,
+  useCatch
 } from "@remix-run/react";
 
 import Header from "./components/Header";
 
 import styles from "./styles/tailwind.css";
+
+import Error from "./routes/error";
 
 export const meta = () => ({
   charset: "utf-8",
@@ -48,19 +51,22 @@ export default function App() {
   );
 }
 
-// export function ErrorBoundary({ error }) {
-//   console.error(error);
-//   return (
-//     <html>
-//       <head>
-//         <title>Oh no!</title>
-//         <Meta />
-//         <Links />
-//       </head>
-//       <body>
-//         {/* add the UI you want your users to see */}
-//         <Scripts />
-//       </body>
-//     </html>
-//   );
-// }
+export function CatchBoundary() {
+  const caught = useCatch();
+  return (
+    <html>
+      <head>
+        <title>Oops! {caught.status} {caught.statusText}</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Error
+         status =  {caught.status}
+         statusText = {caught.statusText}
+        />
+        <Scripts />
+      </body>
+    </html>
+  );
+}

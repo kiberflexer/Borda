@@ -43,7 +43,7 @@ export default function LoginPage() {
                         <MakaraIcon 
                          size={200}
                          animate
-                         animationSpeed={45}/>
+                         animationSpeed={15}/>
                     </div>
 
                     <div className='h-4'></div>
