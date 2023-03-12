@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Golos UI";
+    src:
+        url('/fonts/Golos UI.woff2') format('woff2'),
+        url('/fonts/Golos UI.woff') format('woff');
+}
+
+@layer base {
+    html {
+        font-family: "Golos UI", "Roboto";
+    }
+}
+
+:root {
+    color-scheme: dark;
+}
+
+/* Chrome, Edge, and Safari */
+.scroll-style::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+
+/* .scroll-style::-webkit-scrollbar-track {
+    border-radius: 5px;
+} */
+
+.scroll-style::-webkit-scrollbar-thumb {
+    border-radius: 14px;
+    background-color: #262626;
+    /* border: 3px solid rgb(255 255 255 / 0.1); */
+}
