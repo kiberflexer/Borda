@@ -1,6 +1,6 @@
 import { json, redirect } from "@remix-run/node"
 import { z } from "zod"
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
+import { Prisma } from "@prisma/client"
 
 import auth from "~/utils/auth.server"
 import prisma from "~/utils/prisma.server"
@@ -38,7 +38,7 @@ export async function action({ request }) {
             },
         })
     } catch (e) {
-        if (e instanceof PrismaClientKnownRequestError) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
             // TODO: check error code
             if (e.code == "P2002") {
                 throw json({ errors: { name: 'Команда с таким названием уже существует.' } }, { status: 400 })

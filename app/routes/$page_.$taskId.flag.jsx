@@ -45,8 +45,8 @@ export async function action({ request, params }) {
 
     const schema = z.object({
         flag: z.string().regex(
-            new RegExp('ADM{[0-9A-Za-z_]+}$', 'm'),
-            { message: "Флаг должен иметь формат ADM{flag}." },
+            new RegExp('STF{[0-9A-Za-z_@]+}$|sql_inj{[0-9A-Za-z_@!]+}$', 'm'),
+            { message: "Флаг должен иметь формат STF{flag}." },
         ),
     })
 
@@ -69,20 +69,20 @@ export async function action({ request, params }) {
         const solution = await prisma.solution.create({
             data: {
                 flag: formData.flag,
-                task: { 
-                    connect: { 
+                task: {
+                    connect: {
                         id: result.data,
                     },
                 },
-                team: { 
-                    connect: { 
+                team: {
+                    connect: {
                         id: user.team.id,
                     },
                 },
-                user: { 
-                    connect: { 
+                user: {
+                    connect: {
                         id: user.id,
-                    }, 
+                    },
                 },
                 isCorrect: formData.flag == task.flag,
             }

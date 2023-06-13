@@ -1,6 +1,6 @@
 import { json, redirect } from "@remix-run/node"
 import { z } from "zod"
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
+import { Prisma } from "@prisma/client"
 
 import auth from "~/utils/auth.server"
 import prisma from "~/utils/prisma.server"
@@ -39,7 +39,7 @@ export async function action({ request }) {
         return json({ errors: { token: "Команда не найдена." } })
     }
 
-    if (team && team.members.length == 0){
+    if (team && team.members.length == 0) {
         return json({ errors: { token: "Команда не найдена." } })
     }
 
@@ -64,7 +64,7 @@ export async function action({ request }) {
         user.team = updatedTeam
 
     } catch (e) {
-        if (e instanceof PrismaClientKnownRequestError) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
             // TODO: check error code
             throw json({ errors: { token: 'Произошла ошибка. Попробуйте позже.' } })
         }

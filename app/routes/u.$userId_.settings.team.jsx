@@ -4,7 +4,7 @@ import { json } from '@remix-run/node';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { z } from 'zod';
 import { useFetcher } from '@remix-run/react';
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
+import { Prisma } from "@prisma/client"
 
 import prisma from '~/utils/prisma.server';
 import auth from '~/utils/auth.server';
@@ -182,7 +182,7 @@ export async function action({ request }) {
 
 		return json({ ok: true }, { headers: { 'set-cookie': await commitSession(session) } })
 	} catch (e) {
-		if (e instanceof PrismaClientKnownRequestError) {
+		if (e instanceof Prisma.PrismaClientKnownRequestError) {
 			if (e.code === "P2002") {
 				return json({ errors: { name: 'Команда с таким названием уже существует.' } })
 			}

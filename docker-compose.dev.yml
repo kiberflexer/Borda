@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  import-tasks:
+    container_name: import-tasks
+    image: ctfboard/import-tasks
+    volumes:
+        - ./data.yml:/app/data.yml
+    environment:
+        DATABASE_URL: ${DATABASE_URL}
+        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+  
+  ctfboard:
+    image: ctfboard/ctfboard
+    # container_name: ctfboard-dev
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    ports: ["3000:3000"]
+
+    environment:
+      DOMAIN: ${DOMAIN}
+      SESSION_SECRET: ${SESSION_SECRET}
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      - postgres
+    # networks:
+    #   - dev
+
+  postgres:
+    image: postgres:alpine
+    # container_name: postgres-dev
+    volumes:
+      - ./.postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports: ["5432:5432"]
+    # networks:
+    #   - dev
+
+
+# networks:
+#   dev:
