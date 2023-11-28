@@ -3,13 +3,9 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "build:css": "tailwindcss -m -i ./styles/tailwind.css -o app/styles/index.css",
-        "dev:css": "tailwindcss -w -i ./styles/tailwind.css -o app/styles/index.css",
-        "dev": "remix build && concurrently \"npm run dev:css\" \"npm run dev:node\" \"npm run dev:remix\"",
-        "dev:node": "cross-env NODE_ENV=development nodemon --require dotenv/config ./server.js --watch ./server.js",
-        "dev:remix": "remix watch",
         "build": "remix build",
-        "start": "cross-env NODE_ENV=production node ./server.js",
+        "dev": "remix dev",
+        "start": "remix-serve build",
         "start:migrate": "prisma migrate deploy && npm run start"
     },
     "prisma": {
