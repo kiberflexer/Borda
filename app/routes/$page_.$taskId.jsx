@@ -1,6 +1,10 @@
 import { json, redirect } from "@remix-run/node";
 import { z } from "zod";
-import { useLoaderData, useCatch } from "@remix-run/react";
+import { 
+    useLoaderData,
+    useRouteError,
+    isRouteErrorResponse,
+ } from "@remix-run/react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import ReactMarkdown from "react-markdown";
 
@@ -133,16 +137,16 @@ export default function TaskPage() {
     )
 }
 
-export function CatchBoundary() {
-    const caught = useCatch();
+export function ErrorBoundary() {
+    const error = useRouteError();
 
-    if (caught.status === 404) {
-        return (
-            <Error
-                code={caught.status}
-                text="К сожалению, страница, которую вы ищете, не найдена."
-            />
-        )
-    }
-    throw new Error(`Unhandled error: ${caught.status} `)
+    let message = "К сожалению, страница, которую вы ищете, не найдена."
+
+    return (
+        <Error
+            code={error.status}
+            text={message}
+            error={error}
+        />
+    )
 }

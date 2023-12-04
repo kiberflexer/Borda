@@ -1,27 +1,27 @@
-import { useLoaderData } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import {useLoaderData} from "@remix-run/react";
+import {json} from "@remix-run/node";
 
-import { getTasksByCategory } from "~/utils/task.server";
-import { isEventStarted } from "~/utils/utils.server";
+import {getTasksByCategory} from "~/utils/task.server";
+import {isEventStarted} from "~/utils/utils.server";
 
 import TaskPreview from "~/components/TaskPreview"
 
-export async function loader({ params }) {
+export async function loader({params}) {
     const category = params.page;
 
     const eventStarted = await isEventStarted();
 
     if (!eventStarted) {
-        return json({ tasks: [] })
+        return json({tasks: []})
     }
 
     const tasks = await getTasksByCategory(category);
 
-    return json({ tasks })
+    return json({tasks})
 }
 
 export default function TaskPage() {
-    const { tasks } = useLoaderData();
+    const {tasks} = useLoaderData();
 
     return (
         <div className="grid gap-8">
@@ -30,7 +30,7 @@ export default function TaskPage() {
                     ? <>
                         {
                             tasks.map((task) => (
-                                <TaskPreview key={task.id} task={task} />
+                                <TaskPreview key={task.id} task={task}/>
                             ))
                         }
                     </>

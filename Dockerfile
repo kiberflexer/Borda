@@ -25,11 +25,10 @@ ADD prisma .
 RUN npx prisma generate
 
 ADD . .
-RUN npm run build:css
 RUN npm run build
 
 # Finally, build the production image with minimal footprint
-FROM node:alpine
+FROM node:bookworm-slim
 
 ENV PORT="3000"
 ENV NODE_ENV="production"
@@ -47,7 +46,6 @@ COPY --chown=node:node --from=builder /app/build ./build
 COPY --chown=node:node --from=builder /app/public ./public
 COPY --chown=node:node --from=builder /app/package.json ./
 COPY --chown=node:node --from=builder /app/prisma ./prisma
-COPY --chown=node:node --from=builder /app/server.js ./
 
 EXPOSE 3000
 

@@ -1,10 +1,12 @@
-NAME   := acmecorp/foo
-TAG    := $$(git log -1 --pretty=%!H(MISSING))
-IMG    := ${NAME}:${TAG}
+NAME   := borda/borda
+#TAG    := $(git log -1 --pretty=%!H(MISSING))
+TAG    := $(shell git log --format="%h" -n 1)
+VERSION:= $(shell node -p "require('./package.json').version")
+IMG    := ${NAME}:v${VERSION}-${TAG}
 LATEST := ${NAME}:latest
 
-build:
-	@docker build -t ${IMG} .
+build-docker:
+	@docker build --tag ${IMG} .
 	@docker tag ${IMG} ${LATEST}
 
 push:

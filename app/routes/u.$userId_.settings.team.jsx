@@ -1,4 +1,10 @@
-import { Form, useLoaderData, useCatch, useActionData } from '@remix-run/react';
+import { 
+	Form, 
+	useActionData,
+	useLoaderData, 
+	useRouteError,
+	isRouteErrorResponse,
+ } from '@remix-run/react';
 import { json } from '@remix-run/node';
 // import { TrashIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
@@ -194,14 +200,14 @@ export async function action({ request }) {
 
 
 
-export function CatchBoundary() {
-	const errorResponse = useCatch();
+export function ErrorBoundary() {
+	const error = useRouteError();
 
 	const createTeam = useFetcher();
 	const joinTeam = useFetcher();
 
 
-	if (errorResponse.status === 404) {
+	if (isRouteErrorResponse(error)) {
 		return (
 
 			<div className=''>
@@ -242,5 +248,5 @@ export function CatchBoundary() {
 		)
 	}
 
-	throw new Error(`Unhandled error: ${errorResponse.status} `)
+	throw new Error(`Unhandled error: ${error.status} `)
 }

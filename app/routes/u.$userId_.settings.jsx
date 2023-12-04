@@ -1,5 +1,16 @@
-import { ChevronLeftIcon, Cog6ToothIcon, UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
-import { NavLink, Link, Outlet, useCatch } from "@remix-run/react";
+import { 
+    UserIcon,
+    Cog6ToothIcon, 
+    UserGroupIcon, 
+    ChevronLeftIcon, 
+ } from "@heroicons/react/24/outline";
+import { 
+    Link, 
+    Outlet,   
+    NavLink, 
+    useRouteError,
+    isRouteErrorResponse,
+ } from "@remix-run/react";
 import clsx from "clsx";
 import { z } from "zod";
 
@@ -95,26 +106,20 @@ export default function Settings() {
     )
 }
 
-export function CatchBoundary() {
-    const caught = useCatch();
+export function ErrorBoundary() {
+    const error = useRouteError()
 
-    if (caught.status === 403) {
-        return (
-            <Error
-                code={caught.status}
-                text="Хорошие новости, мы не забыли проверку на права доступа в этом месте."
-            />
-        )
+    let msg = ""
+    if (isRouteErrorResponse(error)) {
+        msg = "Хорошие новости, мы не забыли проверку на права доступа в этом месте."
+    } else{
+        msg="К сожалению, страница, которую вы ищете, в данный момент не работает."
     }
-    throw new Error(`Unhandled error: ${caught.status} `)
-}
 
-export function ErrorBoundary({ error }) {
-    console.log({ error })
     return (
         <Error
-            code="500"
-            text="К сожалению, страница, которую вы ищете, в данный момент не работает."
+            code={error.status}
+            text={msg}
             error={error}
         />
     )

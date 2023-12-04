@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { useLoaderData } from '@remix-run/react'
-import { json } from '@remix-run/node'
+import {useLoaderData} from '@remix-run/react'
+import {json} from '@remix-run/node'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -11,11 +11,11 @@ import {
     Legend,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import { enUS } from 'date-fns/locale';
-import { Bar } from 'react-chartjs-2';
+import {enUS} from 'date-fns/locale';
+import {Bar} from 'react-chartjs-2';
 
 import prisma from '~/utils/prisma.server'
-import { calculatePoints } from '~/utils/score.server'
+import {calculatePoints} from '~/utils/score.server'
 
 import Layout from '~/components/Layout';
 import Error from "~/components/Error";
@@ -30,7 +30,7 @@ ChartJS.register(
     BarElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
 );
 
 export async function loader() {
@@ -55,10 +55,10 @@ export async function loader() {
                     isCorrect: true,
                 }
             })
-            return { ...await result, [task.id]: calculatePoints(solves) }
+            return {...await result, [task.id]: calculatePoints(solves)}
         }, {})
 
-        const event = await prisma.event.findUnique({ where: { id: 1 } })
+        const event = await prisma.event.findUnique({where: {id: 1}})
 
         await Promise.all(
             teams.map(async function (team) {
@@ -68,7 +68,7 @@ export async function loader() {
                     where: {
                         teamId: team.id,
                         isCorrect: true,
-                        createdAt:{
+                        createdAt: {
                             lte: new Date(event.endDate)
                         }
                     }
@@ -79,7 +79,7 @@ export async function loader() {
                     score += taskPoints[solution.taskId]
                 })
 
-                return Object.assign(team, { score: score })
+                return Object.assign(team, {score: score})
             })
         )
 
@@ -163,7 +163,7 @@ const options = {
 
 
 export default function ScoreboardPage() {
-    let { teams, graph } = useLoaderData();
+    let {teams, graph} = useLoaderData();
 
     const data = {
         labels: graph.labels,
@@ -200,32 +200,32 @@ export default function ScoreboardPage() {
                 options={options}
                 data={data}
             /> */}
-            <Bar options={options} data={data} />
+            <Bar options={options} data={data}/>
 
             <div className='my-14 px-5 w-full bg-neutral-900 rounded-xl'>
                 <div className='py-5 relative overflow-x-auto'>
                     <table className="w-full table-auto">
                         <thead>
-                            <tr className='h-12 whitespace-nowrap font-bold '>
-                                <td className="px-3" >Место</td>
-                                <td className="px-3">Команда</td>
-                                <td className="px-3 text-center">Очки</td>
-                            </tr>
+                        <tr className='h-12 whitespace-nowrap font-bold '>
+                            <td className="px-3">Место</td>
+                            <td className="px-3">Команда</td>
+                            <td className="px-3 text-center">Очки</td>
+                        </tr>
                         </thead>
                         <tbody>
-                            {teams.map((team, index) => (
-                                <tr key={team.id} className='h-12 whitespace-nowrap border-t  border-white/30'>
-                                    <td className="px-3 font-bold">
-                                        {index + 1}
-                                    </td>
-                                    <td className="px-3">
-                                        {team.name}
-                                    </td>
-                                    <td className="px-3 text-center">
-                                        {team.score}
-                                    </td>
-                                </tr>
-                            ))}
+                        {teams.map((team, index) => (
+                            <tr key={team.id} className='h-12 whitespace-nowrap border-t  border-white/30'>
+                                <td className="px-3 font-bold">
+                                    {index + 1}
+                                </td>
+                                <td className="px-3">
+                                    {team.name}
+                                </td>
+                                <td className="px-3 text-center">
+                                    {team.score}
+                                </td>
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 </div>
@@ -234,8 +234,8 @@ export default function ScoreboardPage() {
     )
 }
 
-export function ErrorBoundary({ error }) {
-    console.log({ error })
+export function ErrorBoundary({error}) {
+    console.log({error})
     return (
         <Error
             code="500"

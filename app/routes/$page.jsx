@@ -1,4 +1,9 @@
-import { Outlet, useLoaderData, useCatch } from "@remix-run/react";
+import { 
+    Outlet, 
+    useRouteError,  
+    useLoaderData, 
+    isRouteErrorResponse,
+ } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { z } from "zod";
 
@@ -56,26 +61,20 @@ export async function shouldRevalidate({
     return defaultShouldRevalidate;
 }
 
-export function CatchBoundary() {
-    const caught = useCatch();
+export function ErrorBoundary() {
+    const error = useRouteError();
 
-    if (caught.status === 404) {
-        return (
-            <Error
-                code={caught.status}
-                text="К сожалению, страница, которую вы ищете, не найдена."
-            />
-        )
+    let message = ""
+    if (error.status === 404) {
+        message="К сожалению, страница, которую вы ищете, не найдена."
+    } else{
+        message = "К сожалению, страница, которую вы ищете, в данный момент не работает."
     }
-    throw new Error(`Unhandled error: ${caught.status} `)
-}
 
-export function ErrorBoundary({ error }) {
-    console.log({ error })
     return (
         <Error
-            code="500"
-            text="К сожалению, страница, которую вы ищете, в данный момент не работает."
+            code={error.status}
+            text={message}
             error={error}
         />
     )
