@@ -1,5 +1,5 @@
-import { NavLink } from "@remix-run/react";
-import clsx from "clsx";
+import {NavLink} from "@remix-run/react";
+import {cn} from "~/utils/cn";
 import {
     CheckCircleIcon,
     FlagIcon,
@@ -30,32 +30,33 @@ const icons = {
     misc: PuzzlePieceIcon
 }
 
-function TaskCard({ task }) {
+function TaskCard({task}) {
     const color = colors[task.category.name];
     const Icon = icons[task.category.name]
 
     return (
         <NavLink
             to={task.url}
-            className={({ isActive }) =>
-                clsx(
+            className={({isActive}) =>
+                cn(
                     "w-full py-4 px-5 grid grid-flow-row gap-2 ",
                     "focus:scale-95 ",
                     "rounded-md overflow-hidden border-2 border-white/10 hover:border-white/40",
                     "bg-neutral-900",
                     "transition-transform ease-in-out",
-                    "relative"
+                    "relative",
+                    {"opacity-30 blur-sm": task.solved},
                 )
             }
         >
-            <div className={clsx("w-full h-24 flex flex-row")}>
+            <div className={cn("w-full h-24 flex flex-row")}>
                 <div
-                    className={clsx(
+                    className={cn(
                         color,
                         "rounded-xl flex-none h-24 w-24 flex justify-center items-center"
                     )}
                 >
-                    <Icon className=" w-10 h-10" />
+                    <Icon className=" w-10 h-10"/>
                 </div>
 
                 <div className="ml-5 grid grid-cols-2 grid-rows-2 gap-2 w-full">
@@ -63,29 +64,31 @@ function TaskCard({ task }) {
                     <p className="justify-self-start self-end text-3xl font-medium">
                         {task.points}
                     </p>
-                    <div className="justify-self-end self-center grid grid-cols-2 grid-rows-2 gap-1 place-items-center text-white/50 font-normal">
-                        <FlagIcon className="w-4 h-4" strokeWidth={2} />
+                    <div
+                        className="justify-self-end self-center grid grid-cols-2 grid-rows-2 gap-1 place-items-center text-white/50 font-normal">
+                        <FlagIcon className="w-4 h-4" strokeWidth={2}/>
                         <p className="">{task.solves}</p>
-                        <HandThumbUpIcon className="w-4 h-4" strokeWidth={2} />
+                        <HandThumbUpIcon className="w-4 h-4" strokeWidth={2}/>
                         <p className="">{task.likes}</p>
                     </div>
                 </div>
 
-                {task.isSolved ? (
-                    <div className="absolute top-0 left-0 w-full h-full grid place-items-center bg-black/80 backdrop-blur-sm  text-white/60">
-                        <div className="grid grid-cols-1 place-items-center">
-                            <CheckCircleIcon className="h-16 w-16" strokeWidth={1} />
-                            <p className=" text-xl font-medium tracking-wider">Solved</p>
-                        </div>
-                    </div>
-                ) : null}
+                {/*{task.solved ? (*/}
+                {/*    <div*/}
+                {/*        className="absolute top-0 left-0 w-full h-full grid place-items-center bg-black/80 backdrop-blur-sm  text-white/60">*/}
+                {/*        <div className="grid grid-cols-1 place-items-center">*/}
+                {/*            <CheckCircleIcon className="h-16 w-16" strokeWidth={1}/>*/}
+                {/*            <p className=" text-xl font-medium tracking-wider">Solved</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*) : null}*/}
             </div>
         </NavLink>
     );
 }
 
 
-export default function TaskGrid({ tasks }) {
+export default function TaskGrid({tasks}) {
     let sortedTasks = tasks.sort(function (a, b) {
         return a.points - b.points
     });
