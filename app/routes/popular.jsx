@@ -1,7 +1,7 @@
 import {json} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 
-import {getAllTasks} from "~/utils/task.server";
+import {getAllTasks, getTasks} from "~/utils/task.server";
 import {isEventStarted} from "~/utils/utils.server";
 
 import Layout from "~/components/Layout";
@@ -22,7 +22,7 @@ export async function loader({request}) {
         return json({tasks: []})
     }
 
-    const tasks = await getAllTasks()
+    const tasks = await getTasks(user.team.id)
     return json({tasks})
 }
 

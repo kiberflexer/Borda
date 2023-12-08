@@ -1,15 +1,75 @@
-import { z } from 'zod'
-
 import prisma from '~/utils/prisma.server'
-import { transformToTranslit } from './utils.server';
+import {transformToTranslit} from './utils.server';
 
 function deleteTask(taskId) {
-    return prisma.task.delete({ where: { id: taskId } })
+    return prisma.task.delete({where: {id: taskId}})
 }
 
 function calculatePoints(solves) {
     //round(1000 × min(1, 10 / (9 + solves))),
     return Math.round(1000 * Math.min(1, 10 / (9 + solves)))
+}
+
+const taskQuery = {
+    where: {
+        status: {
+            public: true,
+        }
+    },
+    select: {
+        id: true,
+        title: true,
+        description: true,
+        points: true,
+        category: {
+            select: {
+                name: true,
+                title: true
+            }
+        },
+        author: {
+            select: {
+                id: true,
+                name: true,
+            },
+        },
+        _count: {
+            select: {
+                likes: true,
+            },
+        },
+    },
+
+}
+
+export async function getTasks(teamID) {
+    let tasks = await prisma.task.findMany(taskQuery)
+
+    for (const item of tasks) {
+        item.solved = await prisma.solution.findFirst({
+            where: {
+                taskId: item.id,
+                teamId: teamID,
+                isCorrect: true,
+            }
+        }).then(Boolean)
+
+        item.likes = item._count.likes
+        delete item._count
+
+        const solves = await prisma.solution.count({
+            where: {
+                taskId: item.id,
+                isCorrect: true,
+            }
+        })
+        item.solves = solves
+        item.points = calculatePoints(solves)
+
+        item.url = `/${item.category.name}/${item.id}-${transformToTranslit(item.title)}`
+    }
+
+    return tasks
 }
 
 export async function getTaskForUser(taskId, user) {
