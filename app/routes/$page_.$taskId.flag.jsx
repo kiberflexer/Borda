@@ -46,8 +46,8 @@ export async function action({request, params}) {
     const prefix = process.env.CTF_FLAG_PREFIX
     const schema = z.object({
         flag: z.string().regex(
-            new RegExp(prefix + '{[0-9A-Za-z_@]+}$|sql_inj{[0-9A-Za-z_@!]+}$', 'm'),
-            {message: `Флаг должен иметь формат ${prefix}{flag_with_underscore_and_numbers}.`},
+            new RegExp(prefix + '{[0-9A-Za-z_@!?]+}$|sql_inj{[0-9A-Za-z_@!]+}$', 'm'),
+            {message: `Флаг должен иметь формат ${prefix}{flag}.`},
         ),
     })
 
