@@ -33,8 +33,7 @@ export async function loader({request, params}) {
         });
     }
 
-    var task
-
+    let task
     if (user) {
         // Todo: fix prisma task not found
         try {
@@ -54,7 +53,7 @@ export async function loader({request, params}) {
         }
     }
 
-    if (task.category.name != params.page) {
+    if (task.category.name !== params.page) {
         return redirect(task.url)
     }
 
