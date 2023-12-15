@@ -1,5 +1,6 @@
-import { Link } from "@remix-run/react";
-import clsx from "clsx";
+import {Link} from "@remix-run/react";
+import {cn} from "~/utils/cn"
+
 import {
     ArrowsRightLeftIcon,
     BarsArrowDownIcon,
@@ -13,15 +14,15 @@ import {
 } from "@heroicons/react/24/outline";
 import moment from 'moment';
 
-export default function TaskPreview({ task, children }) {
+export default function TaskPreview({task, children}) {
     return (
-        <div className="bg-neutral-900 rounded-lg text-white w-full">
+        <div className={cn("bg-neutral-900 rounded-lg text-white w-full", {"opacity-30 blur-sm": task.solved})}>
             <TaskHeader>
-                <TaskCategory category={task.category} />
+                <TaskCategory category={task.category}/>
                 <Link to={"/u/" + task.author.id} className="pr-5 whitespace-nowrap">
                     {task.author.name}
                 </Link>
-                <TaskDate date={task.updatedAt} />
+                <TaskDate date={task.updatedAt}/>
                 <div className="ml-auto">
                     <p className="text-xl font-bold tracking-widest">{task.points}</p>
                 </div>
@@ -33,17 +34,17 @@ export default function TaskPreview({ task, children }) {
             {children}
             <TaskFooter>
                 <button className="flex items-center mr-5">
-                    <HeartIcon className="w-4 h-4" strokeWidth={2} />
+                    <HeartIcon className="w-4 h-4" strokeWidth={2}/>
                     <span className="ml-1">{task.likes}</span>
                 </button>
 
                 <button className="flex items-center mr-5">
-                    <FlagIcon className="w-4 h-4" strokeWidth={2} />
+                    <FlagIcon className="w-4 h-4" strokeWidth={2}/>
                     <span className="ml-1">{task.solves}</span>
                 </button>
 
                 <button className="flex-shrink ml-auto flex items-center">
-                    <BarsArrowDownIcon className="w-4 h-4" strokeWidth={2} />
+                    <BarsArrowDownIcon className="w-4 h-4" strokeWidth={2}/>
                     <span className="ml-1">0</span>
                 </button>
 
@@ -52,7 +53,7 @@ export default function TaskPreview({ task, children }) {
     )
 }
 
-function TaskHeader({ children }) {
+function TaskHeader({children}) {
     return (
         <div className="h-10 flex items-center px-5 pt-4 mb-4 text-sm">
             {children}
@@ -60,7 +61,7 @@ function TaskHeader({ children }) {
     )
 }
 
-function TaskFooter({ children }) {
+function TaskFooter({children}) {
     return (
         <div className="h-10 flex items-center px-5 mt-4 pb-4 text-sm">
             {children}
@@ -68,7 +69,7 @@ function TaskFooter({ children }) {
     )
 }
 
-function TaskDate({ date }) {
+function TaskDate({date}) {
     moment.locale('ru')
     moment.localeData('ru')
     // moment.tz("Europe/Moscow")
@@ -79,13 +80,13 @@ function TaskDate({ date }) {
     return (<p className="whitespace-nowrap">{fromNow}</p>)
 }
 
-function TaskCategory({ category }) {
+function TaskCategory({category}) {
     const Icon = icons[category.name]
     const color = colors[category.name]
     return (
         <Link to={"/" + category.name} className="flex-none mr-5 flex items-center font-bold">
-            <div className={clsx("w-5 h-5 grid place-items-center rounded mr-2", color)}>
-                <Icon className="w-4 h-4" />
+            <div className={cn("w-5 h-5 grid place-items-center rounded mr-2", color)}>
+                <Icon className="w-4 h-4"/>
             </div>
             <p className="capitalize">{category.title}</p>
         </Link>
