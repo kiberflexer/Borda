@@ -13,6 +13,7 @@ function calculatePoints(solves) {
 const taskQuery = {
     where: {
         status: {
+            active: true,
             public: true,
         }
     },
@@ -42,31 +43,35 @@ const taskQuery = {
 
 }
 
+async function processTask(item, teamID) {
+    item.solved = await prisma.solution.findFirst({
+        where: {
+            taskId: item.id,
+            teamId: teamID,
+            isCorrect: true,
+        }
+    }).then(Boolean)
+
+    item.likes = item._count.likes
+    delete item._count
+
+    const solves = await prisma.solution.count({
+        where: {
+            taskId: item.id,
+            isCorrect: true,
+        }
+    })
+    item.solves = solves
+    item.points = calculatePoints(solves)
+
+    item.url = `/${item.category.name}/${item.id}-${transformToTranslit(item.title)}`
+}
+
 export async function getTasks(teamID) {
     let tasks = await prisma.task.findMany(taskQuery)
 
     for (const item of tasks) {
-        item.solved = await prisma.solution.findFirst({
-            where: {
-                taskId: item.id,
-                teamId: teamID,
-                isCorrect: true,
-            }
-        }).then(Boolean)
-
-        item.likes = item._count.likes
-        delete item._count
-
-        const solves = await prisma.solution.count({
-            where: {
-                taskId: item.id,
-                isCorrect: true,
-            }
-        })
-        item.solves = solves
-        item.points = calculatePoints(solves)
-
-        item.url = `/${item.category.name}/${item.id}-${transformToTranslit(item.title)}`
+        await processTask(item, teamID)
     }
 
     return tasks
@@ -215,123 +220,74 @@ export async function getTask(taskId) {
 }
 
 
-export async function getTasksByCategory(category) {
-    let tasks = await prisma.task.findMany({
-        where: {
-            category: {
-                name: category
-            },
-            status: {
-                public: true,
-            }
-        },
-        include: {
-            category: {
-                select: {
-                    name: true,
-                    title: true
-                }
-            },
-            status: {
-                select: {
-                    active: true,
-                    public: true,
-                }
-            },
-            author: {
-                select: {
-                    id: true,
-                    name: true,
-                },
-            },
-            _count: {
-                select: {
-                    likes: true,
-                },
-            },
-        },
-    });
+export async function getTasksByCategory(category, teamID) {
+    const query = {...taskQuery}
+    query.select.updatedAt = true
+    query.where.category = {name: category}
 
-    await Promise.all(tasks.map(async (task, i) => {
-        const solves = await prisma.solution.count({
-            where: {
-                taskId: task.id,
-                isCorrect: true,
-            }
-        })
-
-        task.points = calculatePoints(solves)
-
-        const newProps = {
-            url: `/${task.category.name}/${task.id}-${transformToTranslit(task.title)}`,
-            solves: solves,
-            likes: task._count.likes
-        }
-
-        delete task._count
-        delete task.flag
-
-        return Object.assign(task, newProps);
-    }))
+    let tasks = await prisma.task.findMany(query);
+    for (const item of tasks) {
+        await processTask(item, teamID)
+    }
 
     return tasks
 }
 
-export async function getAllTasks() {
-    let tasks = await prisma.task.findMany({
-        where: {
-            status: {
-                public: true,
-            }
-        },
-        include: {
-            category: {
-                select: {
-                    name: true,
-                    title: true
-                }
-            },
-            status: {
-                select: {
-                    active: true,
-                    public: true,
-                }
-            },
-            author: {
-                select: {
-                    id: true,
-                    name: true,
-                },
-            },
-            _count: {
-                select: {
-                    likes: true,
-                },
-            },
-        },
-    });
-
-    await Promise.all(tasks.map(async (task, i) => {
-        const solves = await prisma.solution.count({
-            where: {
-                taskId: task.id,
-                isCorrect: true,
-            }
-        })
-
-        task.points = calculatePoints(solves)
-
-        const newProps = {
-            url: `/${task.category.name}/${task.id}-${transformToTranslit(task.title)}`,
-            solves: solves,
-            likes: task._count.likes
-        }
-
-        delete task._count
-        delete task.flag
-
-        return Object.assign(task, newProps);
-    }))
-
-    return tasks
-}
+// export async function getAllTasks() {
+//     let tasks = await prisma.task.findMany({
+//         where: {
+//             status: {
+//                 public: true,
+//             }
+//         },
+//         include: {
+//             category: {
+//                 select: {
+//                     name: true,
+//                     title: true
+//                 }
+//             },
+//             status: {
+//                 select: {
+//                     active: true,
+//                     public: true,
+//                 }
+//             },
+//             author: {
+//                 select: {
+//                     id: true,
+//                     name: true,
+//                 },
+//             },
+//             _count: {
+//                 select: {
+//                     likes: true,
+//                 },
+//             },
+//         },
+//     });
+//
+//     await Promise.all(tasks.map(async (task, i) => {
+//         const solves = await prisma.solution.count({
+//             where: {
+//                 taskId: task.id,
+//                 isCorrect: true,
+//             }
+//         })
+//
+//         task.points = calculatePoints(solves)
+//
+//         const newProps = {
+//             url: `/${task.category.name}/${task.id}-${transformToTranslit(task.title)}`,
+//             solves: solves,
+//             likes: task._count.likes
+//         }
+//
+//         delete task._count
+//         delete task.flag
+//
+//         return Object.assign(task, newProps);
+//     }))
+//
+//     return tasks
+// }
