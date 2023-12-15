@@ -1,8 +1,9 @@
-import {json} from "@remix-run/node";
+import {json, redirect} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 
 import {getAllTasks, getTasks} from "~/utils/task.server";
 import {isEventStarted} from "~/utils/utils.server";
+
 
 import Layout from "~/components/Layout";
 import TaskGrid from "~/components/TaskGrid";
@@ -13,10 +14,12 @@ export async function loader({request}) {
     const user = await auth.isAuthenticated(request, {
         failureRedirect: "/login"
     })
-    const isAdmin = user.role === "ADMIN"
-    console.log(user.role)
-    console.log(isAdmin)
 
+    if (user.team == null) {
+        return redirect(`/u/${user.id}/settings/team`)
+    }
+
+    const isAdmin = user.role === "ADMIN"
     const eventStarted = await isEventStarted()
     if (!eventStarted && !isAdmin) {
         return json({tasks: []})
