@@ -13,7 +13,6 @@ import TaskPreview from "~/components/TaskPreview";
 import TaskFlagInput from "~/components/TaskFlagInput";
 import TaskSolutions from "~/components/TaskSolutions";
 import Error from "~/components/Error";
-import authenticator from "~/utils/auth.server";
 
 export async function loader({request, params}) {
     let user = await auth.isAuthenticated(request, {

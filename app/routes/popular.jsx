@@ -1,7 +1,7 @@
 import {json, redirect} from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 
-import {getAllTasks, getTasks} from "~/utils/task.server";
+import {getTasks} from "~/utils/task.server";
 import {isEventStarted} from "~/utils/utils.server";
 
 

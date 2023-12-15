@@ -4,22 +4,22 @@ import {
     useActionData,
     useTransition
 } from '@remix-run/react'
-import { Response } from '@remix-run/node'
-import { AuthorizationError } from 'remix-auth'
+import {Response} from '@remix-run/node'
+import {AuthorizationError} from 'remix-auth'
 
 import auth from '~/utils/auth.server'
 
-import { MakaraIcon } from '~/components/icons/MakaraIcon'
-import { EmailField, PasswordField } from '~/components/Field'
-import { Button } from '~/components'
+import {MakaraIcon} from '~/components/icons/MakaraIcon'
+import {EmailField, PasswordField} from '~/components/Field'
+import {Button} from '~/components'
 
-export async function loader({ request }) {
+export async function loader({request}) {
     return await auth.isAuthenticated(request, {
         successRedirect: "/popular",
     })
 }
 
-export async function action({ request }) {
+export async function action({request}) {
     try {
         return await auth.authenticate("form", request, {
             successRedirect: "/popular",
@@ -50,11 +50,11 @@ export default function LoginPage() {
                 className='px-6 pb-5 mb-8 grid grid-cols-1 gap-10 my-auto bg-neutral-800 rounded-b-xl'
             >
                 <div className='p-4 flex justify-center'>
-                    <MakaraIcon className={'w-56 h-56'} />
+                    <MakaraIcon className={'w-56 h-56'}/>
                 </div>
                 <div className='grid grid-cols-1 gap-4'>
-                    <EmailField error={actionData?.errors?.email} />
-                    <PasswordField error={actionData?.errors?.password} />
+                    <EmailField error={actionData?.errors?.email}/>
+                    <PasswordField error={actionData?.errors?.password}/>
                 </div>
                 <div>
                     {
