@@ -1,6 +1,6 @@
 {
   "name": "borda",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "build:css": "tailwindcss -m -i ./styles/tailwind.css -o app/styles/index.css",

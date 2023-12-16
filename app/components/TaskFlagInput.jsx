@@ -23,7 +23,7 @@ export default function TaskFlagInput({disabled, className}) {
                 <Field
                     className='m-0'
                     name='flag'
-                    placeholder='admctf{s0m3_fl4g}'
+                    placeholder='STF{s0m3_fl4g}'
                     ref={inputRef}
                     error={fetcher.data?.errors?.flag}
                 />

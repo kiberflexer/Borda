@@ -1,4 +1,4 @@
-const { PrismaClient, Role, Category } = require('@prisma/client');
+const {PrismaClient, Role, Category} = require('@prisma/client');
 const bcrypt = require('bcrypt');
 const yaml = require('js-yaml');
 const fs = require('fs');
@@ -6,11 +6,12 @@ const fs = require('fs');
 const prisma = new PrismaClient();
 
 async function main() {
-    await prisma.$queryRaw`SET TIMEZONE="Europe/Moscow";`
+    await prisma.$executeRaw`SET TIMEZONE="Europe/Moscow";`
+
 
     const admin = await prisma.user.create({
         data: {
-            email: "a@ctfboard.ru",
+            email: "a@a.ru",
             name: "Admin",
             password: await bcrypt.hash(process.env.ADMIN_PASSWORD, 10),
             role: Role.ADMIN
@@ -36,6 +37,7 @@ async function main() {
         })
     )
 
+    const prefix = process.env.CTF_FLAG_PREFIX
     const tasks = await Promise.all(
         categories.map(function (category) {
             return prisma.task.create({
@@ -43,7 +45,7 @@ async function main() {
                     title: `Тестовый таск в категории ${category.title}`,
                     description: `Описание тестового таска в категории ${category.title}`,
                     points: 1000,
-                    flag: "ADM{flag}",
+                    flag: prefix + "{flag}",
                     category: {
                         connect: {
                             id: category.id
@@ -65,13 +67,13 @@ async function main() {
         })
     );
 
-    console.log({ tasks })
+    console.log({tasks})
 
     await prisma.event.create({
         data: {
-            name: 'Admiral Makarov CTF',
-            startDate: new Date('March 10, 2023 10:00:00 GMT+03:00'),
-            endDate: new Date('March 10, 2023 22:00:00 GMT+03:00'),
+            name: 'ADMCTF 2023',
+            startDate: new Date('December 16, 2023 15:00:00+03:00'),
+            endDate: new Date('December 17, 2023 15:00:00+03:00'),
             location: "Online",
             format: 'Task-based'
         }
