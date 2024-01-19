@@ -1,34 +1,14 @@
 import * as React from "react";
-import {
-    Meta,
-    Links,
-    Outlet,
-    Scripts,
-    LiveReload,
-    ScrollRestoration,
-    useLocation,
-    useRouteError,
-    useLoaderData,
-    isRouteErrorResponse,
-} from "@remix-run/react";
+import {Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData,} from "@remix-run/react";
 import {json} from "@remix-run/node";
 import clsx from "clsx";
-import {
-    useTheme,
-    ThemeProvider,
-    PreventFlashOnWrongTheme,
-} from "remix-themes";
+import {PreventFlashOnWrongTheme, ThemeProvider, useTheme,} from "remix-themes";
 
 import {themeSessionResolver} from "~/theme.server";
 import styles from "~/tailwind.css";
-import authenticator from "~/utils/auth.server";
-
-import Error from "~/components/Error";
-import Header from "./components/Header";
-import Account from "./components/Account";
-import Nav from "~/components/Nav";
-import {ModeToggle} from "./components/mode-togle";
+import {auth} from "~/services/auth.server";
 import {SiteHeader} from "~/components/site-header";
+import {SideNav} from "~/components/side-nav";
 import {getCTF} from "~/utils/ctf.server";
 
 export function meta({data, error}) {
@@ -48,7 +28,7 @@ export function links() {
 export async function loader({request}) {
     const {getTheme} = await themeSessionResolver(request);
 
-    let user = await authenticator.isAuthenticated(request);
+    let user = await auth.isAuthenticated(request);
     const ctf = {
         name: process.env.CTF_NAME,
     };
@@ -71,19 +51,6 @@ export default function AppWithProviders() {
 
 export function App({data}) {
     const [theme] = useTheme();
-    let {user} = useLoaderData();
-
-    const location = useLocation();
-    const [isOpen, setIsopen] = React.useState();
-    // if (!location.pathname === "/"){
-    //     setIsopen(false)
-    // } else{
-    //         setIsopen(true)
-    //     }
-
-    const toggleSidebar = () => {
-        isOpen === true ? setIsopen(false) : setIsopen(true);
-    };
 
     return (
         <html lang="en" className={clsx(theme)}>
@@ -94,19 +61,23 @@ export function App({data}) {
             <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)}/>
             <Links/>
         </head>
-        <body className=" bg-background min-w-xs min-h-screen scroll-style">
-        {/*<Header menuOnClick={toggleSidebar}>*/}
-        {/*    <Account className="justify-self-end" user={data.user}/>*/}
-        {/*    <ModeToggle></ModeToggle>*/}
-        {/*</Header>*/}
-        <SiteHeader isLoggedIn={data.user != null} avatarFallback={data.user?.name}/>
-        <div className="flex flex-1 w-full">
-            <Nav isActive={isOpen}/>
-            <main className="flex-grow min-w-0 relative">
-                <Outlet/>
-            </main>
-            {/* <div className="w-80 flex-shrink-0 relative border-l border-white/30"></div> */}
+        <body className="bg-background min-w-xs min-h-screen">
+        <SiteHeader
+            isLoggedIn={data.user != null}
+            avatarFallback={data.user?.displayName}
+            avatarSrc={data.user?._json.avatar_url}
+        />
+        <div className="">
+            <div>
+                <SideNav/>
+                <main className="md:pl-52 ">
+                    <div className="bg-zinc-900 border-l-2 border-l-white/10">
+                        <Outlet/>
+                    </div>
+                </main>
+            </div>
         </div>
+
         {process.env.NODE_ENV === "development" ? <LiveReload/> : null}
         <ScrollRestoration
             getKey={(location) => {
@@ -119,83 +90,46 @@ export function App({data}) {
     );
 }
 
-// export function CatchBoundary() {
-//     const caught = useCatch();
-
-//     // console.log('CatchBoundary', caught);
-
-//     if (caught.status === 404 || caught.status === 403) {
+// export function ErrorBoundary() {
+//     const error = useRouteError();
+//
+//     console.log(error);
+//
+//     // when true, this is what used to go to `CatchBoundary`
+//     if (!isRouteErrorResponse(error)) {
 //         return (
-//             <html>
-//                 <head>
-//                     <Meta />
-//                     <Links />
-//                 </head>
-//                 <body className='bg-black min-w-xs min-h-screen'>
-//                     <Header>
-//                         {/* <Account className="justify-self-end" /> */}
-//                     </Header>
-//                     <div className='flex flex-1 w-full'>
-//                         <Nav />
-//                         <main className='flex-grow min-w-0 relative'>
-//                             <Error
-//                                 code={caught.status}
-//                                 text="К сожалению, страница, которую вы ищете, не найдена."
-//                             />
-//                         </main>
-//                     </div>
-//                     {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
-//                     <ScrollRestoration getKey={(location) => {
-//                         return location.pathname
-//                     }} />
-//                     <Scripts />
-//                 </body>
-//             </html>
-//         )
+//             <div>
+//                 <h1>Oops</h1>
+//                 <p>Status: {error.status}</p>
+//                 <p>{error.message}</p>
+//             </div>
+//         );
 //     }
-//     throw new Error(`Unhandled error: ${caught.status} `)
+//
+//     return (
+//         <html>
+//         <head>
+//             <Meta/>
+//             <Links/>
+//         </head>
+//         <body className="bg-black min-w-xs min-h-screen">
+//         <Header>
+//             {/* <Account className="justify-self-end" user={user} /> */}
+//         </Header>
+//         <div className="flex flex-1 w-full">
+//             <Nav/>
+//             <main className="flex-grow min-w-0 relative">
+//                 <Error
+//                     code="500"
+//                     text="К сожалению, страница, которую вы ищете, в данный момент не работает."
+//                     error={error}
+//                 />
+//             </main>
+//         </div>
+//         {process.env.NODE_ENV === "development" ? <LiveReload/> : null}
+//         <ScrollRestoration/>
+//         <Scripts/>
+//         </body>
+//         </html>
+//     );
 // }
-
-export function ErrorBoundary() {
-    const error = useRouteError();
-
-    console.log(error);
-
-    // when true, this is what used to go to `CatchBoundary`
-    if (!isRouteErrorResponse(error)) {
-        return (
-            <div>
-                <h1>Oops</h1>
-                <p>Status: {error.status}</p>
-                <p>{error.message}</p>
-            </div>
-        );
-    }
-
-    return (
-        <html>
-        <head>
-            <Meta/>
-            <Links/>
-        </head>
-        <body className="bg-black min-w-xs min-h-screen">
-        <Header>
-            {/* <Account className="justify-self-end" user={user} /> */}
-        </Header>
-        <div className="flex flex-1 w-full">
-            <Nav/>
-            <main className="flex-grow min-w-0 relative">
-                <Error
-                    code="500"
-                    text="К сожалению, страница, которую вы ищете, в данный момент не работает."
-                    error={error}
-                />
-            </main>
-        </div>
-        {process.env.NODE_ENV === "development" ? <LiveReload/> : null}
-        <ScrollRestoration/>
-        <Scripts/>
-        </body>
-        </html>
-    );
-}

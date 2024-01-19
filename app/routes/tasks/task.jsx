@@ -30,7 +30,7 @@ const icons = {
     misc: PuzzlePieceIcon
 }
 
-export function TaskCard({task}) {
+export function Task({task}) {
     const color = colors[task.category.name];
     const Icon = icons[task.category.name]
 

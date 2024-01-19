@@ -9,6 +9,8 @@ module.exports = {
         "chartjs-adapter-date-fns",
         "chartjs-chart-treemap",
         "remix-utils/client-only",
+        "@nivo/core",
+        "@nivo/treemap"
     ],
     // ignoredRouteFiles: [".*"],
     serverModuleFormat: "cjs",

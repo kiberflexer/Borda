@@ -11,12 +11,12 @@ services:
 
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
-      - '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN}`)'
+      - '--providers.docker.defaultRule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)'
       - "--providers.docker.network=traefik"
-      
+
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-      
+
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
 
@@ -28,7 +28,7 @@ services:
       
       # - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_NAME}`)"
       - "traefik.http.routers.traefik.middlewares=traefik-auth"
       - "traefik.http.routers.traefik.service=api@internal"
 
@@ -42,11 +42,11 @@ services:
       - traefik
     depends_on:
       - postgres
-      - ctfboard
+      - borda
 
-  ctfboard:
-    image: ctfboard/ctfboard
-    container_name: ctfboard
+  borda:
+    image: ctfboard/borda:v0.1.2-621cf7d
+    container_name: borda
     # build:
     #   context: .
     #   dockerfile: Dockerfile
@@ -55,12 +55,15 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
 
-      - "traefik.http.routers.ctfboard.rule=Host(`${DOMAIN}`)"
-      - "traefik.http.routers.ctfboard.entrypoints=websecure"
+      - "traefik.http.routers.borda.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.borda.entrypoints=websecure"
     environment:
-      DOMAIN: ${DOMAIN}
+      DOMAIN_NAME: ${DOMAIN_NAME}
       SESSION_SECRET: ${SESSION_SECRET}
       DATABASE_URL: ${DATABASE_URL}
+      DIRECT_URL: ${DIRECT_URL}
+      CTF_FLAG_PREFIX: ${CTF_FLAG_PREFIX}
+      CTF_NAME: ${CTF_NAME}
     networks:
       - backend
       - traefik
@@ -72,7 +75,7 @@ services:
     container_name: postgres
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -85,34 +88,34 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
 
-  prisma-studio:
-    container_name: prisma-studio
-    image: ctfboard/prisma-studio:latest
-    # build:
-    #   context: ./
-    #   dockerfile: ./prisma-studio/Dockerfile
-    restart: unless-stopped
-    labels: 
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
-      
-      - "traefik.http.middlewares.prisma-auth.basicauth.usersfile=/traefik/prisma.secret"
-      # - "traefik.http.middlewares.prisma-strip.stripprefix.prefixes=/prisma"
-      # - "traefik.http.middlewares.prisma-add-api.addprefix.prefix=/prisma"
-
-      # - "traefik.http.routers.prisma-studio-api.rule=Host(`m.${DOMAIN}`) && PathPrefix(`/api`)"
-      # - "traefik.http.routers.prisma-studio-api.middlewares=prisma-add-api,auth"
-
-      - "traefik.http.routers.prisma-studio.rule=Host(`prisma.${DOMAIN}`)"
-      - "traefik.http.routers.prisma-studio.entrypoints=websecure"
-      - "traefik.http.routers.prisma-studio.middlewares=prisma-auth"
-
-    networks:
-      - backend
-      - traefik
-    environment:
-      DATABASE_URL: ${DATABASE_URL}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+  #  prisma-studio:
+  #    container_name: prisma-studio
+  #    image: ctfboard/prisma-studio:latest
+  #    # build:
+  #    #   context: ./
+  #    #   dockerfile: ./prisma-studio/Dockerfile
+  #    restart: unless-stopped
+  #    labels:
+  #      - "traefik.enable=true"
+  #      - "traefik.docker.network=traefik"
+  #
+  #      - "traefik.http.middlewares.prisma-auth.basicauth.usersfile=/traefik/prisma.secret"
+  #      # - "traefik.http.middlewares.prisma-strip.stripprefix.prefixes=/prisma"
+  #      # - "traefik.http.middlewares.prisma-add-api.addprefix.prefix=/prisma"
+  #
+  #      # - "traefik.http.routers.prisma-studio-api.rule=Host(`m.${DOMAIN}`) && PathPrefix(`/api`)"
+  #      # - "traefik.http.routers.prisma-studio-api.middlewares=prisma-add-api,auth"
+  #
+  #      - "traefik.http.routers.prisma-studio.rule=Host(`prisma.${DOMAIN}`)"
+  #      - "traefik.http.routers.prisma-studio.entrypoints=websecure"
+  #      - "traefik.http.routers.prisma-studio.middlewares=prisma-auth"
+  #
+  #    networks:
+  #      - backend
+  #      - traefik
+  #    environment:
+  #      DATABASE_URL: ${DATABASE_URL}
+  #      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
 
   whoami:
     image: traefik/whoami
@@ -123,10 +126,24 @@ services:
     networks:
       - traefik
 
+  framework-guru:
+    image: ctfboard/framework-guru:latest
+    container_name: framework-guru
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.framework-guru.entrypoints=websecure"
+    restart: always
+    networks:
+      - traefik
+      - framework-guru
+
 networks:
   traefik:
     external: true
   backend:
+    internal: true
+  framework-guru:
     internal: true
 
 volumes:

@@ -1,0 +1,225 @@
+Defaults: &defaults
+  points: 1000
+  author:
+    name: SeaTeaFrogs
+    contact: "seateafrogs@ctfboard.ru"
+
+misc:
+  - title: Флаг формат
+    description: |
+      Во всех тасках флаг будет иметь формат: **STF{[a-zA-Z0-9_!@?]}**
+      Если флаг имеет другой формат, об этом будет сказано, ну а пока держите ваш первый флаг - STF{w0w_y0ur_f1r5t_fl4g_c0ngr4t5!}
+    flag: STF{w0w_y0ur_f1r5t_fl4g_c0ngr4t5!}
+    <<: *defaults
+
+  - title: Joke Time
+    description: |
+      Устали решать таски? Окей, можете отдохнуть и придумать анекдот про лягушку и информационную безопасность. Если он понравится L0k1, то он даст вам флаг
+    flag: STF{1dy0T_m3DV3D_p0_leSu_v1Dy7_m45H1n4_90R17_53L_v_N3Y0_4nd_5G0re1}
+    <<: *defaults
+
+  - title: Ты должен был бороться с уцуцугой....
+    description: |
+      Не совсем понимаю, что нужно с [этим](https://www.youtube.com/watch?v=dQw4w9WgXcQ) делать, но вроде как нужно найти какой-то флаг, типо такого STF{flag}  
+    flag: STF{flag}
+    <<: *defaults
+
+  - title: Insanity
+    description: |
+      Я говорил тебе что такое [безумие](https://mega.nz/file/1h0yyaSJ#pVLCq81l-t_QErgz8EAILThGTsmM5dWwyBBNe_rDTxQ)?
+    flag: STF{I_am_very_sorry_for_this_task}
+    <<: *defaults
+
+  - title: v0m1t
+    description: |
+      Ангелы летят навстречу нам. [file](https://mega.nz/file/QosmXDCJ#CbKthZbPrDztZYrnoTTzVKPnM3jrofIVWWmGN7hy3tU)?
+    flag: STF{tr4nqd3f0nc3}
+    <<: *defaults
+
+  - title: keygen
+    description: |
+      Что-то меняется, а что-то остается неизменным. [file](https://mega.nz/file/YkVw3DDQ#GRUdw99Am4QyYX3iVd8HbBZFy5V4-njWQIW8guxc24I)?
+    flag: STF{OBFUSC4T1NG}
+    <<: *defaults
+
+  - title: Test
+    description: |
+      У меня в жизни две любви: кубические 3D песочницы и open-source! [file](https://mega.nz/file/opEEiSJT#AY446ClVOkbxdEXqRw5Bro1CrrAH0MXiv_iu-BuLtCI)?
+    flag: STF{SKYFROGZZZ}
+    <<: *defaults
+
+crypto:
+  - title: Саня ты в порядке?
+    description: |
+      Спросил у Сани, в порядке ли он, и получил в ответ что-то очень странное - [ответ Сани](https://mega.nz/file/eIZXQZgD#uyWGbmaYcu8K-r5sl_wAulq89urMr_GPvKHhPJlYx7s)
+    flag: STF{Ar3_y0u_0k4y_my_br0?}
+    <<: *defaults
+
+  - title: Дед помощи просит
+    description: |
+      Мой дед-археолог, зная что я увлекаюсь криптой, прислал мне [записку](https://mega.nz/file/rQBF1I6I#qWsgo1pZngOzF3nuAhShan-0nRjsLX6HAnZr6RN3uoE) с раскопок. Но он не знает, что я трейдер, а не криптограф, но подводить деда не хочется, можешь помочь мне?
+    flag: STF{G4ly4_zhr4t!}
+    <<: *defaults
+
+  - title: Жертва шифровальщика
+    description: |
+      Эти проклятые хакеры позарились на самое дорогое, что у меня было и зашифровали мою коллекцию паст. Помогите расшировать хотя бы мою [самую любимую пасту](https://mega.nz/file/HJhVVTCB#hJSu0jmiSu0V_PLs7dVS1rN2mQmwWwCJT5099nlrZ0s)
+    flag: STF{4nc13n7_zh3l3myh_s70ry}
+    <<: *defaults
+
+  - title: Basic needs
+    description: |
+      **\*\*\*\*M62CGRJTGQSSKVKDGRRQKJBUK7I=**
+    flag: STF{B4S3BRUT3F0RCE}
+    <<: *defaults
+
+  - title: kyooneeform
+    description: |
+      **2C8A 23C7 2131 23A8 22C3 2C9A 2223 217D 2B58 216E 212F 2133 2C6F 2C70 2D16 2147 2C8B 27C6 23AC**. Формат флага **STF{[A-Z]}**
+    flag: STF{UNICODEMADNESS}
+    <<: *defaults
+
+  - title: rndm
+    description: |
+      random.randint([file](https://mega.nz/file/QtNVjB6B#_PYP3soegpWsv1tfbyF__t2zvVxFj88cRXsE3wXXYXg))
+    flag: STF{m00nfl0w3r}
+    <<: *defaults
+
+
+
+forensics:
+  # STEGO
+  - title: Nice Job
+    description: |
+      Пришло время пораскинуть мозгами, главное не потеряйтесь в метавселенной
+      [Файл задания](https://mega.nz/file/fMIHAYTJ#GxUhJoce7MfVmj53ATi5RBDrK-SKkhxGo-KkOk5PxG0)
+    flag: STF{S0_M3T4_4ND_S0_US3L3S5_BRUH}
+    <<: *defaults
+
+  - title: Swap
+    description: |
+      Что-то где-то [поменялось](https://mega.nz/file/hhEEhBTY#31aPP5Gw4plQKjWPqDZHcQ-fK2zBxaMl_lq85wBwkI8)?
+    flag: STF{sw4p_s0me_th1ngs}
+    <<: *defaults
+
+  - title: ImHome
+    description: |
+      Цинния — род однолетних и многолетних трав и полукустарников семейства астровые. [track](https://mega.nz/file/pk0yGSqI#RRM1H8eRX4qwOJNTEfPEcK8HCZccBOdKjFkiYilnES4)
+    flag: STF{aremoearemoearemoe}
+    <<: *defaults
+
+  - title: THE TINIEST CREATURES
+    description: |
+      Котик нажал что-то на клавиатуре, пока я делал таск! Теперь не понимаю, как вернуть исходный [файл](https://mega.nz/file/RxN30AZJ#jsWpX83HnGpbkK1dkTp9Oh5ZjZoC29LoAqJC6SsjeEA)
+    flag: STF{y4_n3_m0gu_u_m3ny4_l4pk1}
+    <<: *defaults
+
+  - title: No difference
+    description: |
+      Эти картинки идентичны и в них точно нет никаких отличий. [file](https://mega.nz/file/d5NlVSqT#rgh3QPhWajy8FmYxVx6H7qTSa5ISI2bSW42nPzFofkk)
+    flag: STF{ASUKABETTERTHANREI}
+    <<: *defaults
+
+
+osint:
+  - title: Mobile Gaming
+    description: |
+      Недавно друг скинул [гайд](https://mega.nz/file/3Awh0IZQ#OimcBzd7rG-MhXwiRlBuuptV_1bBxfcJMkdULLnQuG0) как быстрее проходить квесты в моей любимой MMORPG. Кстати, советую заглянуть на форум этой игры.
+    flag: STF{4m4z1ng_mm0rpg_l1k3_1t}
+    <<: *defaults
+  - title: МореЧайЛягушки
+    description: |
+      Как вам описание нашей команды? Раньше было другое, но вы его никогда не увидите. Ну, разве что у вас в гараже есть машина времени, что маловероятно
+    flag: STF{T1m3_7r4v3ll1n6_15_4m4z1ng}
+    <<: *defaults
+
+  - title: Что мертво умереть не может
+    description: |
+      В 2021 году управляющие сервера этого вредоноса были отключены с ходе масштабной операции зарубежных спецслужб. Но в июне 2022 года он возобновил активность. От вас требуется узнать, с помощью какого инструмента данное ВПО устанавливает в скомпрометированную систему утилиту для удалённого доступа.
+      Формат флага - STF{Executable.exe}
+    flag: STF{MeshAgent.exe}
+    <<: *defaults
+
+  - title: Шпионаж
+    description: |
+      В ходе операции по кибершпионажу в военной, аэрокосмической и правительственных сферах, известная корейская APT-группировка использовала какое-то ПО для активного мониторинга новых дисков и подключений к удаленному рабочему столу на зараженной системе.
+      Найдите название этого ПО. Формат флага - STF{Software}
+    flag: STF{Torisma}
+    <<: *defaults
+
+  - title: I like to ****
+    description: |
+      Используя открытые источники информации, установите имя группировки, активно эксплуатирующей уязвимость в программном продукте для управляемой передачи файлов, а также найдите название веб-шелла используемого для эскплуатации этой уязвимости.
+      Формат флага - STF{groupname_shellname} (lowercase + digits)
+    flag: STF{cl0p_lemurloot}
+    <<: *defaults
+
+  - title: У каждой истории есть начало и конец
+    description: |
+      Какой же крутой [саундтрек](https://youtu.be/ojxCD6U7cIs?si=nHqtG3cavFCqW1-D) у этой игры. Я даже оставил обзор на неё, лайк  
+    flag: STF{vd0l_4_n3_p0p3r3k}
+    <<: *defaults
+
+  - title: Красивый парусник
+    description: |
+      Узнайте сумму номеров IMO и MMSI этого красивого [парусника](https://mega.nz/file/mBwBQbAY#OTn9g9Yj3Zz9NUIDLKpU8Z2zlOwlNHPMIAAFs_7HW3g) и сколько он провёл в порту в свой предпоследний заход в часах. Формат флага - STF{sum_time} 
+    flag: STF{281635501_53}
+    <<: *defaults
+
+  - title: Как же быстро летит время
+    description: |
+      Вы хотели больше оиснта, вот вам больше осинта. Найдите координаты [этого места](https://mega.nz/file/0p0lgRRI#cpCebDUWGfytD66gQ5HHPFqdHCPRp19NSALzG7TxIr4) с точностью до двух знаков. Пример флага - **STF{99.99_99.99}**
+    flag: STF{43.40_39.97}
+    <<: *defaults
+
+  - title: Артефакт
+    description: |
+      Во время раскопок где-то в сибирских лесах, я нашёл эти [странные шкатулки](https://mega.nz/file/QltwXRAa#yLeZ1ApXuWK8W6LzrP5KD2eowyrWTdToAUP2Ra1izQs). Они связаны с какими-то правилами, но нас будет интересовать только восьмое, при чём только та часть его, которая написана на древнем языке. Флаг - **STF{eighth_rule}**
+    flag: STF{talga_vassternich}
+    <<: *defaults
+
+  - title: Notes
+    description: |
+      Хотел загрузить флаг на pastebin, но сайт перестал работать, пришлось искать альтернативу. Набрёл на аналог pastebin, но от любимого разработчиками веб-сервиса для хостинга IT-проектов. А ещё я случайно опубликовал его в публичный доступ...
+    flag: STF{publ1c_g1st_1s_n07_s3cur3}
+    <<: *defaults
+
+  - title: overloud
+    description: |
+      Мой друг любит писать очень громкую музыку и заливать её на один оранжевый сайт. Его никнейм - мёртвый рэйзи, но как-то на английском, точно не помню. солнышко, тепло )))
+    flag: STF{g00d_mus1c_t4st3}
+    <<: *defaults
+
+  #reverse:
+  #  - title:
+  #    description: |
+  #
+  #    flag:
+  #    <<: *defaults
+
+
+  #web:
+  #  - title:
+  #    description: |
+  #
+  #    flag:
+  #    <<: *defaults
+
+  #Defaults: &defaults
+  #  points: 1000
+  #  author:
+  #    name: L0k1
+  #    contact: "seateafrogs@ctfboard.ru"
+
+  #  - title: Mobile Gaming
+  #    description: |
+  #      Недавно друг скинул [гайд](https://mega.nz/file/3Awh0IZQ#OimcBzd7rG-MhXwiRlBuuptV_1bBxfcJMkdULLnQuG0) как быстрее проходить квесты в моей любимой MMORPG. Кстати, советую заглянуть на форум этой игры.
+  #          src: [app.js](https://drive.google.com/file/d/1xTgFRaY0RQpkzYEOZlmgp-yTjAjh5oIS/view?usp=sharing)
+  #    flag: STF{4m4z1ng_mm0rpg_l1k3_1t}
+  #    <<: *defaults
+web:
+  - title: Framework Guru
+    description: |
+      Мне нравится изучать новые фреймворки, но я никогда не могу запомнить на каком языке они написаны. Уверен многие сталкивались с такой проблемой, поэтому я сделал [сайт](https://framework-guru.admctf.ru).
+    flag: STF{4m4z1ng_fl4g_y0u_4r3_r34lly_g00d_pr0gr4m3r}
+  

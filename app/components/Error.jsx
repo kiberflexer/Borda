@@ -21,10 +21,10 @@ export default function Error({ error, code, text }) {
                             <p className='text-lg'>{text}</p>
                         </div>
                     </div>
-                    {error && process.env.NODE_ENV === 'development'
-                        ? <RedBox error={error} />
-                        : null
-                    }
+                    {/*{error && process.env.NODE_ENV === 'development'*/}
+                    {/*    ? <RedBox error={error} />*/}
+                    {/*    : null*/}
+                    {/*}*/}
                 </div>
             </div>
         </Layout>
